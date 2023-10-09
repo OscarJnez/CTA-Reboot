@@ -43,6 +43,16 @@ PUT    | /refereeTeam/:refereeTeamId  | YES   | admin| Update one Referee Team |
 DELETE | /refereeTeam/:refereeTeamId | YES   | admin| Delete one Referee Team |                                                 | {message: 'Referee Team deleted'}
 
 
+### FootBall_Match Endpoints
+
+METHOD | ENDPOINT         | TOKEN | ROLE | DESCRIPTION              | POST PARAMS                                     | RETURNS
+-------|------------------|-------|------|--------------------------|-------------------------------------------------|--------------------
+GET    | /footballMatch   | YES   | user | Get All Football Match   |  `query params`                                 | [{refereeTeam}]
+GET    | /footballMatch/:footballMatchId  | YES   | user | Get One RFootball Match    |                                  |  {refereeTeam}
+GET    | /footballMatch/profile   | YES   | user | Get Football     |                                             |  {refereeTeam}
+POST   | /refereeTeam           | YES   | admin| Create one Referee Team  | `members`, `location`                     | {refereeTeam }
+PUT    | /refereeTeam/:refereeTeamId  | YES   | admin| Update one Referee Team | `members`, `location`    | {message: 'Referee Team updated'
+DELETE | /refereeTeam/:refereeTeamId | YES   | admin| Delete one Referee Team |                                                 | {message: 'Referee Team deleted'}
 
 
 ```
