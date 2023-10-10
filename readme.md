@@ -47,7 +47,7 @@
 |--------|-------------------------------------|-------|-------|----------------------------|-------------------------------------------------|--------------------------------|
 | GET    | /footballMatch                      | YES   | user  | Get All Football Match     | `query params`                                  | [{footballMatch}]               |
 | GET    | /footballMatch/:footballMatchId      | YES   | user  | Get One Football Match      |                                                 | {footballMatch}                |
-| GET    | /footballMatch/profile              | YES   | user  | Get Own Football Matchs     |                                                 | {footballMatch}                |
+| GET    | /footballMatch/profile              | YES   | user  | Get Own Football Matchs     |                                                 | {footballMatch}                |   
 | POST   | /footballMatch                      | YES   | admin | Create One Football Match   | `date`, `goals_Away`, `goals_Local`, `redCard_Local`,`redCard_Away`,`penalties`  | {footballMatch}                |
 | PUT    | /footballMatch/:footballMatchId      | YES   | admin | Update One Football Match   | `date`, `goals_Away`, `goals_Local`, `redCard_Local`,`redCard_Away`,`penalties`  | {message: 'Football Match updated'} |
 | DELETE | /footballMatch/:footballMatchId      | YES   | admin | Delete one Football Match    |                                                 | {message: 'Football Match updated'} |
