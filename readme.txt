@@ -1,5 +1,3 @@
-
-
 ### User Signup/Login
 
 METHOD | ENDPOINT         | TOKEN | ROLE | DESCRIPTION              | POST PARAMS                                     | RETURNS
@@ -44,7 +42,6 @@ POST   | /refereeTeam                | YES   | admin | Create one Referee Team  
 PUT    | /refereeTeam/:refereeTeamId | YES   | admin | Update one Referee Team  | `members`, `location`                           |  {message: 'Referee Team updated'}
 DELETE | /refereeTeam/:refereeTeamId | YES   | admin | Delete one Referee Team  |                                                 |  {message: 'Referee Team deleted'}
  
-
 ### FootBall_Match Endpoints
 
 METHOD | ENDPOINT                        | TOKEN | ROLE  | DESCRIPTION               | POST PARAMS                                     | RETURNS
@@ -56,7 +53,6 @@ POST   | /footballMatch                  | YES   | admin | Create One Football M
 PUT    | /footballMatch/:footballMatchId | YES   | admin | Update One Football Match | `date`, `goals_Away`, `goals_Local`, `redCard_Local`,`redCard_Away`,`penalties`           | {message: 'Football Match updated'
 DELETE | /footballMatch/:footballMatchId | YES   | admin | Delete one Football Match |                                                 | {message: 'Football Match updated'}
 
-
 ### Team Endpoints
 
 METHOD | ENDPOINT                        | TOKEN | ROLE  | DESCRIPTION               | POST PARAMS                                     | RETURNS
@@ -66,8 +62,3 @@ GET    | /team/:teamId                   | YES   | user  | Get One Team         
 POST   | /team                           | YES   | admin | Create One Team           |  `club_Name`,`player_sheets`, `coach`, `location`, `sending_off`                                 | {team}
 PUT    | /team/:teamId                   | YES   | admin | Update One Team           |  `club_Name`,`player_sheets`, `coach`, `location`, `sending_off`                                 | {message: 'Football Match updated'
 DELETE | /team/:teamId                   | YES   | admin | Delete one Team           |                                                 | {message: 'Football Match updated'}
-
-
-
-
-
