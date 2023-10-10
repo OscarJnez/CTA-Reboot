@@ -1,13 +1,13 @@
 ### User Signup/Login
 
-| METHOD | ENDPOINT         | TOKEN | ROLE  | DESCRIPTION        | POST PARAMS                                                                                                         | RETURNS                |
+| METHOD | ENDPOINT          | TOKEN | ROLE  | DESCRIPTION        | POST PARAMS                                                                                                         | RETURNS                |
 |--------|-------------------|-------|-------|--------------------|---------------------------------------------------------------------------------------------------------------------|------------------------|
 | POST   | /auth/signup      | -     | user  | User Signup        | `DNI`, `name`, `last_name`, `password`, `role`, `committee`, `contact_number`, `category`, `email`                  | { token: `token` }     |
 | POST   | /auth/login       | -     | user  | User Login         | `DNI`, `password`                                                                                                   | { token: `token` }     |
 
 ### User Endpoints
 
-| METHOD | ENDPOINT          | TOKEN | ROLE  | DESCRIPTION               | POST PARAMS                                                                                                         | RETURNS                           |
+| METHOD | ENDPOINT           | TOKEN | ROLE  | DESCRIPTION               | POST PARAMS                                                                                                         | RETURNS                           |
 |--------|--------------------|-------|-------|---------------------------|---------------------------------------------------------------------------------------------------------------------|-----------------------------------|
 | GET    | /user              | YES   | user  | Get All Users             | `query params`                                                                                                      | [{user}]                          |
 | GET    | /user/profile      | YES   | user  | Get Own Profile           |                                                                                                                     | {user}                            |
@@ -32,7 +32,7 @@
 
 ### Referee_team Endpoints
 
-| METHOD | ENDPOINT                     | TOKEN | ROLE  | DESCRIPTION               | POST PARAMS                                     | RETURNS                   |
+| METHOD | ENDPOINT                      | TOKEN | ROLE  | DESCRIPTION               | POST PARAMS                                     | RETURNS                   |
 |--------|-------------------------------|-------|-------|---------------------------|-------------------------------------------------|---------------------------|
 | GET    | /refereeTeam                  | YES   | user  | Get All Referee teams     | `query params`                                  | [{refereeTeam}]           |
 | GET    | /refereeTeam/:refereeTeamId  | YES   | user  | Get One Referee Team      |                                                 | {refereeTeam}             |
@@ -43,7 +43,7 @@
 
 ### FootBall_Match Endpoints
 
-| METHOD | ENDPOINT                           | TOKEN | ROLE  | DESCRIPTION                | POST PARAMS                                     | RETURNS                        |
+| METHOD | ENDPOINT                            | TOKEN | ROLE  | DESCRIPTION                | POST PARAMS                                     | RETURNS                        |
 |--------|-------------------------------------|-------|-------|----------------------------|-------------------------------------------------|--------------------------------|
 | GET    | /footballMatch                      | YES   | user  | Get All Football Match     | `query params`                                  | [{footballMatch}]               |
 | GET    | /footballMatch/:footballMatchId      | YES   | user  | Get One Football Match      |                                                 | {footballMatch}                |
@@ -54,8 +54,8 @@
 
 ### Team Endpoints
 
-| METHOD | ENDPOINT                           | TOKEN | ROLE  | DESCRIPTION                | POST PARAMS                                     | RETURNS                        |
-|--------|-------------------------------------|-------|-------|----------------------------|-------------------------------------------------|--------------------------------|
+| METHOD | ENDPOINT                           | TOKEN | ROLE  | DESCRIPTION                 | POST PARAMS                                     | RETURNS                        |
+|--------|------------------------------------|-------|-------|-----------------------------|-------------------------------------------------|--------------------------------|
 | GET    | /team                              | YES   | user  | Get All Teams               | `query params`                                  | [{team}]                       |
 | GET    | /team/:teamId                      | YES   | user  | Get One Team                |                                                 | {team}                         |
 | POST   | /team                              | YES   | admin | Create One Team              | `club_Name`,`player_sheets`, `coach`, `location`, `sending_off`  | {team}                |
