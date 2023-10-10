@@ -35,22 +35,25 @@
 | METHOD | ENDPOINT                      | TOKEN | ROLE  | DESCRIPTION               | POST PARAMS                                     | RETURNS                   |
 |--------|-------------------------------|-------|-------|---------------------------|-------------------------------------------------|---------------------------|
 | GET    | /refereeTeam                  | YES   | user  | Get All Referee teams     | `query params`                                  | [{refereeTeam}]           |
-| GET    | /refereeTeam/:refereeTeamId  | YES   | user  | Get One Referee Team      |                                                 | {refereeTeam}             |
+| GET    | /refereeTeam/:refereeTeamId   | YES   | user  | Get One Referee Team      |                                                 | {refereeTeam}             |
+| GET    | /refereeTeam/:refereeTeamId/stats   | YES   | user  | Get One Referee Team Stats   |                                        | [{refereeTeamStats}]             |
 | GET    | /refereeTeam/profile          | YES   | user  | Get Own Referee Team      |                                                 | {refereeTeam}             |
-| POST   | /refereeTeam                  | YES   | admin | Create one Referee Team   | `members`, `location`                          | {refereeTeam}             |
-| PUT    | /refereeTeam/:refereeTeamId  | YES   | admin | Update one Referee Team   | `members`, `location`                          | {message: 'Team updated'} |
-| DELETE | /refereeTeam/:refereeTeamId  | YES   | admin | Delete one Referee Team   |                                                 | {message: 'Team deleted'} |
+| GET    | /refereeTeam/profile/stats    | YES   | user  | Get Own Referee Team Stats|                                                 | {refereeTeamStats}        |
+| POST   | /refereeTeam                  | YES   | admin | Create one Referee Team   | `members`, `location`                          | {refereeTeam}              |
+| PUT    | /refereeTeam/:refereeTeamId  | YES   | admin | Update one Referee Team    | `members`, `location`                          | {message: 'Team updated'}   |
+| DELETE | /refereeTeam/:refereeTeamId  | YES   | admin | Delete one Referee Team    |                                                 | {message: 'Team deleted'}  |
 
 ### FootBall_Match Endpoints
 
 | METHOD | ENDPOINT                            | TOKEN | ROLE  | DESCRIPTION                | POST PARAMS                                     | RETURNS                        |
 |--------|-------------------------------------|-------|-------|----------------------------|-------------------------------------------------|--------------------------------|
-| GET    | /footballMatch                      | YES   | user  | Get All Football Match     | `query params`                                  | [{footballMatch}]               |
-| GET    | /footballMatch/:footballMatchId      | YES   | user  | Get One Football Match      |                                                 | {footballMatch}                |
-| GET    | /footballMatch/profile              | YES   | user  | Get Own Football Matchs     |                                                 | {footballMatch}                |   
-| POST   | /footballMatch                      | YES   | admin | Create One Football Match   | `date`, `goals_Away`, `goals_Local`, `redCard_Local`,`redCard_Away`,`penalties`  | {footballMatch}                |
-| PUT    | /footballMatch/:footballMatchId      | YES   | admin | Update One Football Match   | `date`, `goals_Away`, `goals_Local`, `redCard_Local`,`redCard_Away`,`penalties`  | {message: 'Football Match updated'} |
-| DELETE | /footballMatch/:footballMatchId      | YES   | admin | Delete one Football Match    |                                                 | {message: 'Football Match updated'} |
+| GET    | /footballMatch                      | YES   | admin | Get All Football Matches   | `query params`                                 | [{footballMatch}]               |
+| GET    | /footballMatch/:footballMatchId     | YES   | user/admin | Get One Football Match  |                                               | {footballMatch}                |
+| GET    | /footballMatch/profile/next         | YES   | user   | Get Next Football Match     |                                               | {footballMatch}                |   
+| GET    | /footballMatch/profile              | YES   | user   | Get All Own Football Matches|                                          | [{footballMatch}]                |   
+| POST   | /footballMatch                      | YES   | admin  | Create One Football Match   | `date`, `goals_Away`, `goals_Local`, `redCard_Local`,`redCard_Away`,`penalties`  | {footballMatch}                |
+| PUT    | /footballMatch/:footballMatchId     | YES  | admin  | Update One Football Match   | `date`, `goals_Away`, `goals_Local`, `redCard_Local`,`redCard_Away`,`penalties`  | {message: 'Football Match updated'} |
+| DELETE | /footballMatch/:footballMatchId     | YES  | admin  | Delete one Football Match   |                                                 | {message: 'Football Match updated'} |
 
 ### Team Endpoints
 
@@ -58,6 +61,7 @@
 |--------|------------------------------------|-------|-------|-----------------------------|-------------------------------------------------|--------------------------------|
 | GET    | /team                              | YES   | user  | Get All Teams               | `query params`                                  | [{team}]                       |
 | GET    | /team/:teamId                      | YES   | user  | Get One Team                |                                                 | {team}                         |
+| GET    | /team/:teamId/footballMatches       | YES   | user  | Get all team matches you have refereed  |                                                 | [{teams}]                         |
 | POST   | /team                              | YES   | admin | Create One Team              | `club_Name`,`player_sheets`, `coach`, `location`, `sending_off`  | {team}                |
 | PUT    | /team/:teamId                      | YES   | admin | Update One Team              | `club_Name`,`player_sheets`, `coach`, `location`, `sending_off`  | {message: 'Team updated'} |
 | DELETE | /team/:teamId                      | YES   | admin | Delete one Team              |                                                 | {message: 'Team deleted'}    |
