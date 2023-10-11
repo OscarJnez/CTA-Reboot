@@ -16,7 +16,10 @@ const getAllFootballMatchs = async(req,res)=>{
 
 const getOneFootballMatch = async(req,res)=>{
     try {
-        const footballMatch = await FootballMatch.findByPk(req.params.FootballMatchId)
+        const footballMatch = await FootballMatch.findByPk(req.params.footballMatchId, {
+            attributes: {
+              exclude: ['played','goals_away','goals_local','red_card_local','red_card_away','yellow_card','penalties']
+            }})
         if(footballMatch){
             return res.status(200).json(footballMatch)
         }else{
