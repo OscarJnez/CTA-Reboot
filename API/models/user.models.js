@@ -35,4 +35,4 @@ const User = connection.define('user', {
     timestamps: false,
 })
 
-module.export = User
+module.exports = User
