@@ -3,7 +3,7 @@ const Team = require('../models/team.models')
 
 const getAllTeams = async(req,res)=>{
     try {
-        const teams = await Team.findAll()
+        const teams = await Team.findAll({where: req.query})
         if(teams){
             return res.status(200).json(teams)
         }else{

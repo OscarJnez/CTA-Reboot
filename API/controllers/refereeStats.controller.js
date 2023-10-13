@@ -3,7 +3,7 @@ const RefereeStats = require('../models/refereeStats.models')
 
 const getAllRefereeStats = async(req,res)=>{
     try {
-        const refereeStats = await RefereeStats.findAll()
+        const refereeStats = await RefereeStats.findAll({where: req.query})
         if(refereeStats){
             return res.status(200).json(RefereeStats)
         }else{

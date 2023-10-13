@@ -3,7 +3,7 @@ const User = require('../models/user.models')
 
 const getAllUsers = async(req,res)=>{
     try {
-        const users = await User.findAll()
+        const users = await User.findAll({where: req.query})
         if(users){
             return res.status(200).json(users)
         }else{
