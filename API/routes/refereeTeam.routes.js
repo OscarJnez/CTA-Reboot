@@ -8,14 +8,15 @@ const {
     updateRefereeTeam,
     deleteRefereeTeam
   } = require('../controllers/refereeTeam.controller')
+const { checkAdmin } = require('../utils/autorization.utils')
 
 
   router
   .get('/', getAllRefereeTeams)
   //.get('/profile', getOwnProfile)
   .get('/:refereeTeamId', getOneRefereeTeam)
-  .post('/',  createRefereeTeam)
-  .put('/:refereeTeamId',  updateRefereeTeam)
-  .delete('/:refereeTeamId',  deleteRefereeTeam)
+  .post('/', checkAdmin, createRefereeTeam)
+  .put('/:refereeTeamId', checkAdmin,  updateRefereeTeam)
+  .delete('/:refereeTeamId', checkAdmin, deleteRefereeTeam)
 
   module.exports = router

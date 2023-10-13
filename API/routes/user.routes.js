@@ -8,14 +8,20 @@ const {
     updateUser,
     deleteUser
   } = require('../controllers/user.controller')
+const { checkAdmin } = require('../utils/autorization.utils')
+
+//admin Routes 
 
 
   router
-  .get('/', getAllUsers)
+  .get('/', checkAdmin, getAllUsers)
   //.get('/profile', getOwnProfile)
-  .get('/:userId', getOneUser)
-  .post('/',  createUser)
-  .put('/:userId',  updateUser)
-  .delete('/:userId',  deleteUser)
+  .get('/:userId', checkAdmin, getOneUser)
+  .post('/', checkAdmin, createUser)
+  .put('/:userId', checkAdmin, updateUser)
+  .delete('/:userId', checkAdmin,  deleteUser)
+
+
+//admin profile
 
   module.exports = router

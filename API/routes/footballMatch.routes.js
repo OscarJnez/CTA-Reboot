@@ -8,14 +8,15 @@ const {
     updateFootballMatch,
     deleteFootballMatch
   } = require('../controllers/footballMatch.controller')
+const { checkAdmin } = require('../utils/autorization.utils')
 
 
   router
   .get('/', getAllFootballMatchs)
   //.get('/profile', getOwnProfile)
   .get('/:footballMatchId', getOneFootballMatch)
-  .post('/',  createFootballMatch)
-  .put('/:footballMatchId',  updateFootballMatch)
-  .delete('/:footballMatchId',  deleteFootballMatch)
+  .post('/', checkAdmin,  createFootballMatch)
+  .put('/:footballMatchId', checkAdmin, updateFootballMatch)
+  .delete('/:footballMatchId', checkAdmin, deleteFootballMatch)
 
   module.exports = router

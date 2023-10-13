@@ -8,7 +8,7 @@ const signUp = async(req,res) => {
     try {
 
         if (req.body.password.length < 8) {
-            return res.status(400).json({ message: 'Password too short' })
+            return res.status(400).json({ message: 'Password too short' })   ///Validation en modelo. 
         }
         
         const salt = bcrypt.genSaltSync(parseInt(process.env.SALTROUNDS))
