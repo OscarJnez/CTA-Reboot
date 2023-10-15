@@ -19,6 +19,21 @@ const getAllFootballMatchs = async (req, res) => {
     }
 }
 
+const getAllFootballMatchsAllInfo = async (req, res) => {
+    try {
+        const footballMatchs = await FootballMatch.findAll({
+            where: req.query
+        })
+        if (footballMatchs) {
+            return res.status(200).json(footballMatchs)
+        } else {
+            return res.status(404).send("FootballMatch not found")
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
 const getOneFootballMatch = async (req, res) => {
     try {
         const footballMatch = await FootballMatch.findByPk(req.params.footballMatchId, {
@@ -35,6 +50,38 @@ const getOneFootballMatch = async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 }
+
+const getOneFootballMatchAllInfo = async (req, res) => {
+    try {
+        const footballMatch = await FootballMatch.findByPk(req.params.footballMatchId)
+        if (footballMatch) {
+            return res.status(200).json(footballMatch)
+        } else {
+            return res.status(404).send("FootballMatch not found")
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+const getOwnFootballMatches= async (req, res) => {
+    try {
+        const footballMatches = await FootballMatch.findAll({
+            where: {
+                refereeTeamId : res.locals.user.refereeTeamId
+            }
+        })
+
+        if (footballMatches) {
+            return res.status(200).json(footballMatches)
+        } else {
+            return res.status(404).send("FootballMatch not found")
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
 
 const createFootballMatch = async (req, res) => {
     try {
@@ -86,8 +133,10 @@ const deleteFootballMatch = async (req, res) => {
 
 module.exports = {
     getAllFootballMatchs,
+    getAllFootballMatchsAllInfo,
     getOneFootballMatch,
-    //getOwnProfile,
+    getOneFootballMatchAllInfo,
+    getOwnFootballMatches,
     createFootballMatch,
     updateFootballMatch,
     deleteFootballMatch

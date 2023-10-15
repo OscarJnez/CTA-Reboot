@@ -26,6 +26,18 @@ const getOneRefereeTeam = async(req,res)=>{
         res.status(500).json({message : error.message})
     }
 }
+const getOwnRefereeTeam = async(req,res)=>{
+    try {
+        const refereeTeam = await RefereeTeam.findByPk(res.locals.user.refereeTeamId)
+        if(refereeTeam){
+            return res.status(200).json(refereeTeam)
+        }else{
+            return res.status(404).send("RefereeTeam not found")
+        }
+    } catch (error) {
+        res.status(500).json({message : error.message})
+    }
+}
 
 const createRefereeTeam = async(req,res)=>{
     try {
@@ -78,7 +90,7 @@ const deleteRefereeTeam = async(req,res)=>{
 module.exports = {
     getAllRefereeTeams,
     getOneRefereeTeam,
-    //getOwnProfile,
+    getOwnRefereeTeam,
     createRefereeTeam,
     updateRefereeTeam,
     deleteRefereeTeam

@@ -26,6 +26,18 @@ const getOneRefereeStat = async(req,res)=>{
         res.status(500).json({message : error.message})
     }
 }
+const getOwnRefereeStats = async(req,res)=>{
+    try {
+        const refereeStat = await RefereeStats.findByPk(res.locals.user.id)
+        if(refereeStat){
+            return res.status(200).json(refereeStat)
+        }else{
+            return res.status(404).send("RefereeStat not found")
+        }
+    } catch (error) {
+        res.status(500).json({message : error.message})
+    }
+}
 
 const createRefereeStat = async(req,res)=>{
     try {
@@ -78,7 +90,7 @@ const deleteRefereeStat = async(req,res)=>{
 module.exports = {
     getAllRefereeStats,
     getOneRefereeStat,
-    //getOwnProfile,
+    getOwnRefereeStats,
     createRefereeStat,
     updateRefereeStat,
     deleteRefereeStat

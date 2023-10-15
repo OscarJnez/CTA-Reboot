@@ -1,4 +1,5 @@
 const User = require('../models/user.models')
+const bcrypt = require('bcrypt')
 
 
 const getAllUsers = async(req,res)=>{
@@ -26,6 +27,24 @@ const getOneUser = async(req,res)=>{
         res.status(500).json({message : error.message})
     }
 }
+
+const getOwnProfile = async(req,res)=>{
+    try {
+        const user = await User.findByPk(res.locals.user.id,{
+            attributes : {
+                exclude : ["password"]
+            }
+        })
+        if(user){
+            return res.status(200).json(user)
+        }else{
+            return res.status(404).send("User not found")
+        }
+    } catch (error) {
+        res.status(500).json({message : error.message})
+    }
+}
+
 
 const createUser = async(req,res)=>{
     try {
@@ -57,6 +76,46 @@ const updateUser = async(req,res)=>{
     }
 }
 
+const updatePassword = async(req,res)=>{
+    try {
+        const salt = bcrypt.genSaltSync(parseInt(process.env.SALTROUNDS))
+        const encrypted = bcrypt.hashSync(req.body.password, salt)
+        req.body.password = encrypted
+        const user = await User.update(req.body,{
+            where : {
+                id : res.locals.user.id
+            }
+        })
+        if(user){
+            return res.status(200).json({message : "password updated"})
+        }else{
+            return res.status(404).send("User not found")
+        }
+    } catch (error) {
+        res.status(500).json({message : error.message})
+    }
+}
+
+
+
+
+const updateOwnProfile = async(req,res)=>{
+    try {
+        const user = await User.update(req.body,{
+            where : {
+                id : res.locals.user.id
+            }
+        })
+        if(user){
+            return res.status(200).json({message : "user updated"})
+        }else{
+            return res.status(404).send("User not found")
+        }
+    } catch (error) {
+        res.status(500).json({message : error.message})
+    }
+}
+
 const deleteUser = async(req,res)=>{
     try {
         const user = await User.destroy({
@@ -73,13 +132,32 @@ const deleteUser = async(req,res)=>{
         res.status(500).json({message : error.message})
     }
 }
+const deleteProfile = async(req,res)=>{
+    try {
+        const user = await User.destroy({
+            where : {
+                id : res.locals.user.id
+            }
+        })
+        if(user){
+            return res.status(200).json({message : "user deleted"})
+        }else{
+            return res.status(404).send("User not found")
+        }
+    } catch (error) {
+        res.status(500).json({message : error.message})
+    }
+}
 
 
 module.exports = {
     getAllUsers,
     getOneUser,
-    //getOwnProfile,
+    getOwnProfile,
     createUser,
     updateUser,
-    deleteUser
+    updatePassword,
+    updateOwnProfile,
+    deleteUser,
+    deleteProfile
 }

@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/user.models')
+const { Op } = require("sequelize");
 
 const checkAuth = async (req, res, next) => {
     
@@ -11,10 +12,10 @@ const checkAuth = async (req, res, next) => {
         if (err) {
             return res.status(401).send('Token not valid')
         }
-
         const user = await User.findOne({
             where: {
-                email: result.email
+                [Op.or]: [{ email : result.email }, { dni : result.dni}]
+                
             }
         })
 

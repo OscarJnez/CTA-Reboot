@@ -3,7 +3,7 @@ const router = require('express').Router()
 const {
     getAllRefereeStats,
     getOneRefereeStat,
-    //getOwnProfile,
+    getOwnRefereeStats,
     createRefereeStat,
     updateRefereeStat,
     deleteRefereeStat
@@ -13,7 +13,7 @@ const { checkAdmin } = require('../utils/autorization.utils')
 
   router
   .get('/', getAllRefereeStats)
-  //.get('/profile', getOwnProfile)
+  .get('/profile', getOwnRefereeStats)
   .get('/:statsId', getOneRefereeStat)
   .post('/', checkAdmin, createRefereeStat)
   .put('/:statsId', checkAdmin, updateRefereeStat)
