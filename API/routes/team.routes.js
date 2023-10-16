@@ -3,7 +3,7 @@ const router = require('express').Router()
 const {
     getAllTeams,
     getOneTeam,
-    //getOwnProfile,
+    getAllTeamMatches,
     createTeam,
     updateTeam,
     deleteTeam
@@ -13,8 +13,8 @@ const { checkAdmin } = require('../utils/autorization.utils')
 
   router
   .get('/', getAllTeams)
-  //.get('/profile', getOwnProfile)
   .get('/:teamId', getOneTeam)
+  .get('/:teamId/footballMatches', getAllTeamMatches)
   .post('/', checkAdmin, createTeam)
   .put('/:teamId',  checkAdmin, updateTeam)
   .delete('/:teamId',  checkAdmin, deleteTeam)

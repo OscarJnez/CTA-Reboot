@@ -1,4 +1,5 @@
 const Team = require('../models/team.models')
+const FootballMatch = require('../models/footballMatch.models')
 
 
 const getAllTeams = async(req,res)=>{
@@ -26,6 +27,35 @@ const getOneTeam = async(req,res)=>{
         res.status(500).json({message : error.message})
     }
 }
+
+const getAllTeamMatches = async (req, res) => {
+    try {
+        const team = req.params.teamId
+        const matches = await FootballMatch.findAll({
+            where: {
+                refereeTeamId: res.locals.user.refereeTeamId
+            }
+        })
+        let result = []
+        for (i=0; i<matches.length; i++) {
+            if (matches[i].getTeams({
+                where: {
+                    teamId: team
+                }
+            })) {
+                result.push(matches[i])
+            }
+        }
+        if (matches) {
+            return res.status(200).json(result)
+        } else {
+            return res.status(404).send("Matches not found for this referee team")
+        }
+    } catch (error) {
+        res.status(500).json({message : error.message})
+    }
+}
+
 
 const createTeam = async(req,res)=>{
     try {
@@ -78,7 +108,7 @@ const deleteTeam = async(req,res)=>{
 module.exports = {
     getAllTeams,
     getOneTeam,
-    //getOwnProfile,
+    getAllTeamMatches,
     createTeam,
     updateTeam,
     deleteTeam

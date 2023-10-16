@@ -4,6 +4,7 @@ const {
     getAllRefereeTeams,
     getOneRefereeTeam,
     getOwnRefereeTeam,
+    getOwnRefereeTeamStats,
     createRefereeTeam,
     updateRefereeTeam,
     deleteRefereeTeam
@@ -14,6 +15,7 @@ const { checkAdmin } = require('../utils/autorization.utils')
   router
   .get('/', getAllRefereeTeams)
   .get('/profile', getOwnRefereeTeam)
+  .get('/profile/stats', getOwnRefereeTeamStats)
   .get('/:refereeTeamId', getOneRefereeTeam)
   .post('/', checkAdmin, createRefereeTeam)
   .put('/:refereeTeamId', checkAdmin,  updateRefereeTeam)

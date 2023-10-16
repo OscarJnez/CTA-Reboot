@@ -1,4 +1,5 @@
 const RefereeTeam = require('../models/refereeTeam.models')
+const User = require('../models/user.models')
 
 
 const getAllRefereeTeams = async(req,res)=>{
@@ -36,6 +37,26 @@ const getOwnRefereeTeam = async(req,res)=>{
         }
     } catch (error) {
         res.status(500).json({message : error.message})
+    }
+}
+
+const getOwnRefereeTeamStats = async (req, res) => {
+    try {
+        var refereeTeam = await RefereeTeam.findByPk(res.locals.user.refereeTeamId)
+        const users = await refereeTeam.getUsers()
+        console.log(users)
+        let result = []
+        for(let i=0;i < users.length;i++){
+            let user = await User.findByPk(users[i].id)
+            let stat =  await user.getReferee_stat()
+            result.push(stat)
+        }
+        if (refereeTeam) {
+            return res.status(200).json(result)
+        }
+    } catch (error) {
+        return res.status(404).send(error.message)
+
     }
 }
 
@@ -91,6 +112,7 @@ module.exports = {
     getAllRefereeTeams,
     getOneRefereeTeam,
     getOwnRefereeTeam,
+    getOwnRefereeTeamStats,
     createRefereeTeam,
     updateRefereeTeam,
     deleteRefereeTeam

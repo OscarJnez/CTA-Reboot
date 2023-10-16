@@ -1,4 +1,8 @@
 const FootballMatch = require('../models/footballMatch.models')
+const RefereeTeam = require('../models/refereeTeam.models')
+const User = require('../models/user.models')
+const Team = require('../models/team.models')
+const RefereeStats = require('../models/refereeStats.models')
 
 
 const getAllFootballMatchs = async (req, res) => {
@@ -86,6 +90,33 @@ const getOwnFootballMatches= async (req, res) => {
 const createFootballMatch = async (req, res) => {
     try {
         const footballMatch = await FootballMatch.create(req.body)
+        const refereeTeam = await RefereeTeam.findByPk(footballMatch.refereeTeamId)
+        if(refereeTeam){
+            var users = await refereeTeam.getUsers()
+            for(let i=0;i < users.length;i++){
+                let user = await User.findByPk(users[i].id)
+                let stat =  await user.getReferee_stat()
+                console.log(stat)
+                stat.goals_away_team += footballMatch.goals_away
+                stat.goals_local_team += footballMatch.goals_local
+                stat.yellow_card += footballMatch.yellow_card
+                stat.red_card += footballMatch.red_card_local + footballMatch.red_card_away
+                stat.penalties += footballMatch.penalties
+                await stat.save()
+            }
+        }
+        const team_local = await Team.findByPk(req.body.team_local)
+        const team_away = await Team.findByPk(req.body.team_away)
+
+        await footballMatch.addTeams(team_local)
+        await footballMatch.addTeams(team_away)
+
+        team_local.sending_off = footballMatch.red_card_local 
+        team_away.sending_off = footballMatch.red_card_away
+
+        await team_local.save()
+        await team_away.save()
+        
         if (footballMatch) {
             return res.status(200).json(footballMatch)
         } else {
