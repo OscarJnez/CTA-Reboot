@@ -27,6 +27,8 @@ const FootballMatch = connection.define('football_match', {
     },
     penalties: {
         type: DataTypes.INTEGER
+    },referee_score: {
+        type: DataTypes.DOUBLE        
     }
 }, {
     timestamps: false,

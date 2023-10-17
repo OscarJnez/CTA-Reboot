@@ -120,12 +120,12 @@ const createFootballMatch = async (req, res) => {
             for(let i=0;i < users.length;i++){
                 let user = await User.findByPk(users[i].id)
                 let stat =  await user.getReferee_stat()
-                console.log(stat)
                 stat.goals_away_team += footballMatch.goals_away
                 stat.goals_local_team += footballMatch.goals_local
                 stat.yellow_card += footballMatch.yellow_card
                 stat.red_card += footballMatch.red_card_local + footballMatch.red_card_away
                 stat.penalties += footballMatch.penalties
+                stat.referee_score = (stat.referee_score + footballMatch.referee_score )/2
                 await stat.save()
             }
         }
