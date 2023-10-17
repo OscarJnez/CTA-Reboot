@@ -59,6 +59,23 @@ const getOwnRefereeTeamStats = async (req, res) => {
 
     }
 }
+const getOneRefereeTeamStats = async (req, res) => {
+    try {
+        var refereeTeam = await RefereeTeam.findByPk(req.params.refereeTeamId)
+        if (refereeTeam) {
+            const users = await refereeTeam.getUsers() //que hay en users ???un array que viene del metodo especial d
+            var result = []   
+            for (let i = 0; i < users.length; i++) {
+                let user = await User.findByPk(users[i].id) 
+                let stat = await user.getReferee_stat()  
+                result.push(stat)   
+            }
+        }
+        return res.status(200).json(result) 
+    } catch (error) {
+        return res.status(500).send("Referee Team Stat not Found.")
+    }
+}
 
 const createRefereeTeam = async(req,res)=>{
     try {
@@ -111,6 +128,7 @@ const deleteRefereeTeam = async(req,res)=>{
 module.exports = {
     getAllRefereeTeams,
     getOneRefereeTeam,
+    getOneRefereeTeamStats,
     getOwnRefereeTeam,
     getOwnRefereeTeamStats,
     createRefereeTeam,

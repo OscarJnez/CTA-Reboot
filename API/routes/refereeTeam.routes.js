@@ -3,6 +3,7 @@ const router = require('express').Router()
 const {
     getAllRefereeTeams,
     getOneRefereeTeam,
+    getOneRefereeTeamStats,
     getOwnRefereeTeam,
     getOwnRefereeTeamStats,
     createRefereeTeam,
@@ -16,6 +17,7 @@ const { checkAdmin } = require('../utils/autorization.utils')
   .get('/', getAllRefereeTeams)
   .get('/profile', getOwnRefereeTeam)
   .get('/profile/stats', getOwnRefereeTeamStats)
+  .get('/:refereeTeamId/stats', getOwnRefereeTeamStats)
   .get('/:refereeTeamId', getOneRefereeTeam)
   .post('/', checkAdmin, createRefereeTeam)
   .put('/:refereeTeamId', checkAdmin,  updateRefereeTeam)

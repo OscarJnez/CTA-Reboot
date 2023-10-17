@@ -87,6 +87,30 @@ const getOwnFootballMatches= async (req, res) => {
 }
 
 
+const getNextFootballMatch = async (req,res) => {
+    try {
+        const footballMatches = await FootballMatch.findAll({
+            where: {
+                refereeTeamId : res.locals.user.refereeTeamId
+            }
+        })
+        let result = footballMatches.sort(function(a,b){
+            return new Date(a.date) - new Date(b.date)  ;
+          });
+
+        if (footballMatches) {
+            return res.status(200).json(result[0])
+        } else {
+            return res.status(404).send("FootballMatch not found")
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+
+
+
 const createFootballMatch = async (req, res) => {
     try {
         const footballMatch = await FootballMatch.create(req.body)
@@ -168,6 +192,7 @@ module.exports = {
     getOneFootballMatch,
     getOneFootballMatchAllInfo,
     getOwnFootballMatches,
+    getNextFootballMatch,
     createFootballMatch,
     updateFootballMatch,
     deleteFootballMatch

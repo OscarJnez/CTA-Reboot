@@ -6,6 +6,7 @@ const {
     getOneFootballMatch,
     getOneFootballMatchAllInfo,
     getOwnFootballMatches,
+    getNextFootballMatch,
     createFootballMatch,
     updateFootballMatch,
     deleteFootballMatch
@@ -19,6 +20,7 @@ const { checkAdmin } = require('../utils/autorization.utils')
   .get('/profile', getOwnFootballMatches)
   .get('/:footballMatchId', getOneFootballMatch)
   .get('/:footballMatchId/allInfo', getOneFootballMatchAllInfo)
+  .get('/profile/next', getNextFootballMatch)
   .post('/', checkAdmin,  createFootballMatch)
   .put('/:footballMatchId', checkAdmin, updateFootballMatch)
   .delete('/:footballMatchId', checkAdmin, deleteFootballMatch)
