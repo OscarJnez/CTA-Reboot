@@ -18,6 +18,7 @@ const User = connection.define('user', {
     },
     email: {
         type: DataTypes.STRING,
+        unique: true, 
         notNull: true,
         validate: { isEmail: true }
     },
@@ -26,7 +27,8 @@ const User = connection.define('user', {
         notNull: true
     },
     role: {
-        type: DataTypes.ENUM('admin', 'user')
+        type: DataTypes.ENUM('admin', 'user'),
+        defaultValue : "user"
     },
     contact_number: {
         type: DataTypes.INTEGER
