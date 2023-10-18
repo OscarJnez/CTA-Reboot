@@ -10,7 +10,13 @@ const getAllFootballMatchs = async (req, res) => {
         const footballMatchs = await FootballMatch.findAll({
             where: req.query,
             attributes: {
-                exclude: ['played', 'goals_away', 'goals_local', 'red_card_local', 'red_card_away', 'yellow_card', 'penalties', 'refereeTeamId']
+                exclude: ['played', 'goals_away', 'goals_local', 'red_card_local', 'red_card_away', 'yellow_card', 'penalties', 'refereeTeamId',"referee_score"]
+            },
+            include : {
+                model : Team,
+                through: {
+                    attributes: []
+                  }              
             }
         })
         if (footballMatchs) {
@@ -26,7 +32,13 @@ const getAllFootballMatchs = async (req, res) => {
 const getAllFootballMatchsAllInfo = async (req, res) => {
     try {
         const footballMatchs = await FootballMatch.findAll({
-            where: req.query
+            where: req.query,
+            include : {
+                model : Team, 
+                through: {
+                    attributes: []
+                  }    
+            }
         })
         if (footballMatchs) {
             return res.status(200).json(footballMatchs)
@@ -42,7 +54,13 @@ const getOneFootballMatch = async (req, res) => {
     try {
         const footballMatch = await FootballMatch.findByPk(req.params.footballMatchId, {
             attributes: {
-                exclude: ['played', 'goals_away', 'goals_local', 'red_card_local', 'red_card_away', 'yellow_card', 'penalties', 'refereeTeamId']
+                exclude: ['played', 'goals_away', 'goals_local', 'red_card_local', 'red_card_away', 'yellow_card', 'penalties', 'refereeTeamId',"referee_score"]
+            },
+            include : {
+                model : Team,
+                through: {
+                    attributes: []
+                  }    
             }
         })
         if (footballMatch) {
@@ -57,7 +75,14 @@ const getOneFootballMatch = async (req, res) => {
 
 const getOneFootballMatchAllInfo = async (req, res) => {
     try {
-        const footballMatch = await FootballMatch.findByPk(req.params.footballMatchId)
+        const footballMatch = await FootballMatch.findByPk(req.params.footballMatchId,{
+            include : {
+                model : Team,
+                through: {
+                    attributes: []
+                  }    
+            }
+        })
         if (footballMatch) {
             return res.status(200).json(footballMatch)
         } else {
@@ -73,6 +98,12 @@ const getOwnFootballMatches= async (req, res) => {
         const footballMatches = await FootballMatch.findAll({
             where: {
                 refereeTeamId : res.locals.user.refereeTeamId
+            },
+            include : {
+                model : Team,
+                through: {
+                    attributes: []
+                  }    
             }
         })
 
@@ -91,17 +122,26 @@ const getNextFootballMatch = async (req,res) => {
     try {
         const footballMatches = await FootballMatch.findAll({
             where: {
-                refereeTeamId : res.locals.user.refereeTeamId
+                refereeTeamId : res.locals.user.refereeTeamId,
+                played : false
+            },
+            attributes:{
+                exclude : ['played', 'goals_away', 'goals_local', 'red_card_local', 'red_card_away', 'yellow_card', 'penalties',"referee_score"]
+            },
+            include : {
+                model : Team,
+                through: {
+                    attributes: []
+                  }    
             }
         })
-        let result = footballMatches.sort(function(a,b){
-            return new Date(a.date) - new Date(b.date)  ;
+        let resultArray = footballMatches.sort(function(a,b){
+            return  new Date(b.date) - new Date(a.date);
           });
-
         if (footballMatches) {
-            return res.status(200).json(result[0])
+            return res.status(200).json(resultArray[0])
         } else {
-            return res.status(404).send("FootballMatch not found")
+            return res.status(404).send("You don´t have any assigned Football Match")
         }
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -115,7 +155,7 @@ const createFootballMatch = async (req, res) => {
     try {
         const footballMatch = await FootballMatch.create(req.body)
         const refereeTeam = await RefereeTeam.findByPk(footballMatch.refereeTeamId)
-        if(refereeTeam){
+        if(refereeTeam && footballMatch.played){
             var users = await refereeTeam.getUsers()
             for(let i=0;i < users.length;i++){
                 let user = await User.findByPk(users[i].id)
@@ -126,21 +166,20 @@ const createFootballMatch = async (req, res) => {
                 stat.red_card += footballMatch.red_card_local + footballMatch.red_card_away
                 stat.penalties += footballMatch.penalties
                 stat.referee_score = (stat.referee_score + footballMatch.referee_score )/2
-                await stat.save()
-            }
+                await stat.save()   }
         }
         const team_local = await Team.findByPk(req.body.team_local)
         const team_away = await Team.findByPk(req.body.team_away)
-
         await footballMatch.addTeams(team_local)
         await footballMatch.addTeams(team_away)
 
+        if(footballMatch.played){
         team_local.sending_off = footballMatch.red_card_local 
         team_away.sending_off = footballMatch.red_card_away
 
         await team_local.save()
         await team_away.save()
-        
+    }
         if (footballMatch) {
             return res.status(200).json(footballMatch)
         } else {
